@@ -1,0 +1,33 @@
+parameters:
+  app:
+    name: Cloud Gallery
+    version: 02.2020
+    url: https://cloudgallery.jameshcooper.com
+    description: Self-hosted albums on AWS S3
+  cloud:
+    key: "%env(AWS_ACCESS_KEY_ID)%"
+    secret: "%env(AWS_SECRET_ACCESS_KEY)%"
+    region: "%env(AWS_DEFAULT_REGION)%"
+    bucket: "%env(AWS_BUCKET)%"
+    url: "%env(AWS_URL)%"
+  gallery.key: "%env(GALLERY_KEY)%"
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+    public: true
+    bind:
+      $appStorage: "%kernel.project_dir%/storage/"
+
+  App\:
+    resource: "../src/*"
+    exclude: "../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}"
+
+  App\Controller\:
+    resource: "../src/Controller"
+    tags: ["controller.service_arguments"]
+
+  App\Gallery:
+    bind:
+      $key: "%gallery.key%"

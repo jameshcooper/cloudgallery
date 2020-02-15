@@ -1,0 +1,4 @@
+parameters:
+    app.name: 'symvue dev'
+    app.url:  '%env(APP_URL)%'
+    app.api:  '%env(APP_API)%'
